@@ -3,6 +3,13 @@ from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
 
+"""
+to run code:
+python smartcab/agent.py
+python -m smartcab.agent
+
+"""
+
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
 
@@ -23,7 +30,7 @@ class LearningAgent(Agent):
         deadline = self.env.get_deadline(self)
 
         # TODO: Update state
-        
+
         # TODO: Select action according to your policy
         action = None
 
