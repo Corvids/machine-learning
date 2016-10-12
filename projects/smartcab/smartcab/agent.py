@@ -51,7 +51,7 @@ class LearningAgent(Agent):
                 motion = True
         else:
             motion = False
-
+            action = None
 
         # Execute action and get reward
         reward = self.env.act(self, action)
