@@ -2,6 +2,7 @@ import random
 from environment import Agent, Environment
 from planner import RoutePlanner
 from simulator import Simulator
+import numpy as np
 
 """
 to run code:
@@ -35,6 +36,7 @@ class LearningAgent(Agent):
 
         # TODO: Update state
         self.state = (inputs, self.next_waypoint)
+        action =  np.random.choice((None, 'forward', 'left', 'right'))
 
         # TODO: Select action according to your policy
         action = self.next_waypoint
