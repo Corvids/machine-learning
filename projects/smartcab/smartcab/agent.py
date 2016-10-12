@@ -25,6 +25,7 @@ class LearningAgent(Agent):
         # TODO: Prepare for a new trip; reset any variables here, if required
         self.state = None
         self.reward = 0
+        self.next_waypoint = None
 
     def update(self, t):
         # Gather inputs
@@ -33,9 +34,24 @@ class LearningAgent(Agent):
         deadline = self.env.get_deadline(self)
 
         # TODO: Update state
+        self.state = (inputs, self.next_waypoint)
 
         # TODO: Select action according to your policy
-        action = None
+        action = self.next_waypoint
+        motion = False
+
+        if self.next_waypoint == 'forward':
+            if inputs['light'] == 'green':
+                motion = True
+        elif self.next_waypoint == 'left':
+            if inputs['light'] == 'green' and inputs['oncoming'] != 'forward':
+                motion = True
+        elif self.next_waypoint == 'right':
+            if inputs['light'] == 'red' and inputs['oncoming'] != 'left' or inputs['left'] != 'forward':
+                motion = True
+        else:
+            motion = False
+
 
         # Execute action and get reward
         reward = self.env.act(self, action)
