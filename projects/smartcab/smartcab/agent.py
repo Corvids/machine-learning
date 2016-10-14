@@ -20,13 +20,13 @@ class LearningAgent(Agent):
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
         # TODO: Initialize any additional variables here
         self.next_waypoint = None
-        self.reward = 0
+        self.sum_reward = 0
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
         # TODO: Prepare for a new trip; reset any variables here, if required
         self.state = None
-        self.reward = 0
+        self.sum_reward = 0
         self.next_waypoint = None
 
     def update(self, t):
@@ -58,6 +58,7 @@ class LearningAgent(Agent):
 
         # Execute action and get reward
         reward = self.env.act(self, action)
+        self.sum_reward += reward
 
         # TODO: Learn policy based on state, action, reward
 
