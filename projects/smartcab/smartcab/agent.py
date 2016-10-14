@@ -19,7 +19,8 @@ class LearningAgent(Agent):
         self.color = 'red'  # override color
         self.planner = RoutePlanner(self.env, self)  # simple route planner to get next_waypoint
         # TODO: Initialize any additional variables here
-
+        self.next_waypoint = None
+        self.reward = 0
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -33,10 +34,10 @@ class LearningAgent(Agent):
         self.next_waypoint = self.planner.next_waypoint()  # from route planner, also displayed by simulator
         inputs = self.env.sense(self)
         deadline = self.env.get_deadline(self)
+        action =  np.random.choice((None, 'forward', 'left', 'right'))
 
         # TODO: Update state
         self.state = (inputs, self.next_waypoint)
-        action =  np.random.choice((None, 'forward', 'left', 'right'))
 
         # TODO: Select action according to your policy
         action = self.next_waypoint
@@ -76,7 +77,7 @@ def run():
     sim = Simulator(e, update_delay=0.5, display=True)  # create simulator (uses pygame when display=True, if available)
     # NOTE: To speed up simulation, reduce update_delay and/or set display=False
 
-    sim.run(n_trials=100)  # run for a specified number of trials
+    sim.run(n_trials=10)  # run for a specified number of trials
     # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
 
 
