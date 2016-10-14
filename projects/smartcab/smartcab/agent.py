@@ -26,8 +26,9 @@ class LearningAgent(Agent):
         self.planner.route_to(destination)
         # TODO: Prepare for a new trip; reset any variables here, if required
         self.state = None
-        self.sum_reward = 0
         self.next_waypoint = None
+        self.sum_reward = 0
+
 
     def update(self, t):
         # Gather inputs
