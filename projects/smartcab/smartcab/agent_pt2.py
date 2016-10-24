@@ -6,8 +6,8 @@ import numpy as np
 
 """
 to run code:
-python smartcab/agent.py
-python -m smartcab.agent
+python smartcab/agent_pt2.py
+python -m smartcab.agent_pt2
 
 runs on python 2.7
 """

@@ -4,6 +4,14 @@ from planner import RoutePlanner
 from simulator import Simulator
 import numpy as np
 
+"""
+to run code:
+python smartcab/agent_pt1.py
+python -m smartcab.agent_pt1
+
+runs on python 2.7
+"""
+
 class LearningAgent(Agent):
     """An agent that learns to drive in the smartcab world."""
 
