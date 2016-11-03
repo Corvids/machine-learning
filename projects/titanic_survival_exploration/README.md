@@ -1,6 +1,9 @@
 # Project 0: Introduction and Fundamentals
 ## Titanic Survival Exploration
 
+### Description
+In this optional project, you will create decision functions that attempt to predict survival outcomes from the 1912 Titanic disaster based on each passenger’s features, such as sex and age. You will start with a simple algorithm and increase its complexity until you are able to accurately predict the outcomes for at least 80% of the passengers in the provided data. This project will introduce you to some of the concepts of machine learning as you start the Nanodegree program.
+
 ### Install
 
 This project requires **Python 2.7** and the following Python libraries installed:
@@ -12,7 +15,7 @@ This project requires **Python 2.7** and the following Python libraries installe
 
 You will also need to have software installed to run and execute an [iPython Notebook](http://ipython.org/notebook.html)
 
-Udacity recommends our students install [Anaconda](https://www.continuum.io/downloads), i pre-packaged Python distribution that contains all of the necessary libraries and software for this project. 
+Udacity recommends our students install [Anaconda](https://www.continuum.io/downloads), i pre-packaged Python distribution that contains all of the necessary libraries and software for this project.
 
 ### Code
 
