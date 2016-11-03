@@ -2,6 +2,10 @@
 # Deep Learning
 ## Project: Build a Digit Recognition Program
 
+### Description
+
+In this project, you will use what you've learned about deep neural networks and convolutional neural networks to create a live camera application or program that prints numbers it observes in real time from images it is given. First, you will design and test a model architecture that can identify sequences of digits in an image. Next, you will train that model so it can decode sequences of digits from natural images by using the Street View House Numbers (SVHN) dataset. After the model is properly trained, you will then test your model using a live camera application (optional) or program on newly-captured images. Finally, once you obtain meaningful results, you will refine your implementation to also localize where numbers are on the image, and test this localization on newly-captured images.
+
 ### Install
 
 This project requires **Python 2.7** and the following Python libraries installed:
@@ -41,7 +45,7 @@ conda install -c menpo opencv=2.4.11
 
 ### Code
 
-A template notebook is provided as `digit_recognition.ipynb`. While no code is included in the notebook, you will be required to use the notebook to implement the basic functionality of your project and answer questions about your implementation and results. 
+A template notebook is provided as `digit_recognition.ipynb`. While no code is included in the notebook, you will be required to use the notebook to implement the basic functionality of your project and answer questions about your implementation and results.
 
 ### Run
 
