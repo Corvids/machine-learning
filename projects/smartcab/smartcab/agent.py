@@ -60,7 +60,7 @@ class LearningAgent(Agent):
         #   If it is not, create a dictionary in the Q-table for the current 'state'
         #   For each action, set the Q-value for the state-action pair to 0
 
-        state = None
+        state = (waypoint, inputs deadline)
 
         return state
 
