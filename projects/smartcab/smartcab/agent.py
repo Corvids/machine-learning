@@ -63,7 +63,7 @@ class LearningAgent(Agent):
         ###########
         # Set 'state' as a tuple of relevant data for the agent
         agent_inputs = tuple([inputs[item] for item in inputs])
-        state = (waypoint,agent_inputs,deadline)
+        state = (waypoint,agent_inputs)
 
         return state
 
@@ -90,9 +90,9 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         # Then, for each action available, set the initial Q-value to 0.0
+        state_init = {None:0.0,'forward':0.0,'left':0.0,'right':0.0}
         if not self.Q or state not in self.Q:
-            for action in self.valid_actions:
-                self.Q[state][action] = 0.0
+            self.Q[state] = state_init
         return
 
 
@@ -125,7 +125,7 @@ class LearningAgent(Agent):
                 if state_actions[self.next_waypoint] == 0.0:
                     action = self.next_waypoint
                 else:
-                    action = random.choice(state_actions)
+                    action = random.choice(self.valid_actions)
             else:
                 for key,val in state_actions.iteritems():
                     if val == best_Q_val:
