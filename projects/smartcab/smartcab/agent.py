@@ -63,7 +63,7 @@ class LearningAgent(Agent):
         ###########
         # Set 'state' as a tuple of relevant data for the agent
         agent_inputs = tuple([inputs[item] for item in inputs])
-        state = (waypoint,agent_inputs)
+        state = (waypoint, agent_inputs, deadline)
 
         return state
 
