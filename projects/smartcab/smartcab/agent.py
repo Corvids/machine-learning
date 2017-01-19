@@ -24,6 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
         self.valid_actions = Environment.valid_actions # valid actions for agent
+        self.num_trials = 0
 
     def reset(self, destination=None, testing=False):
         """ The reset function is called at the beginning of each trial.
@@ -45,6 +46,7 @@ class LearningAgent(Agent):
             self.alpha = 0
         else:
             self.epsilon -= 0.05
+            self.num_trials += 1
 
         return None
 
