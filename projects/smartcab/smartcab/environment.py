@@ -32,7 +32,7 @@ class Environment(object):
     valid_headings = [(1, 0), (0, -1), (-1, 0), (0, 1)]  # E, N, W, S
     hard_time_limit = -100  # Set a hard time limit even if deadline is not enforced.
 
-    def __init__(self, verbose=True, num_dummies=100, grid_size = (8, 6)):
+    def __init__(self, verbose=False, num_dummies=100, grid_size = (8, 6)):
         self.num_dummies = num_dummies  # Number of dummy driver agents in the environment
         self.verbose = verbose # If debug output should be given
 
@@ -67,7 +67,7 @@ class Environment(object):
             self.roads.append(((x, self.bounds[3] + self.hang), (x, self.bounds[3])))
         for y in xrange(self.bounds[1], self.bounds[3] + 1):
             self.roads.append(((self.bounds[0] - self.hang, y), (self.bounds[0], y)))
-            self.roads.append(((self.bounds[2] + self.hang, y), (self.bounds[2], y)))
+            self.roads.append(((self.bounds[2] + self.hang, y), (self.bounds[2], y)))    
 
         # Create dummy agents
         for i in xrange(self.num_dummies):
@@ -75,13 +75,11 @@ class Environment(object):
 
         # Primary agent and associated parameters
         self.primary_agent = None  # to be set explicitly
-        # set to True to force driving agent to capture whether it reaches
-        # the destination in time
-        self.enforce_deadline = True
+        self.enforce_deadline = False
 
         # Trial data (updated at the end of each trial)
         self.trial_data = {
-            'testing': True, # if the trial is for testing a learned policy
+            'testing': False, # if the trial is for testing a learned policy
             'initial_distance': 0,  # L1 distance from start to destination
             'initial_deadline': 0,  # given deadline (time steps) to start with
             'net_reward': 0.0,  # total reward earned in current trial
@@ -97,7 +95,7 @@ class Environment(object):
         self.agent_states[agent] = {'location': random.choice(self.intersections.keys()), 'heading': (0, 1)}
         return agent
 
-    def set_primary_agent(self, agent, enforce_deadline=True):
+    def set_primary_agent(self, agent, enforce_deadline=False):
         """ When called, set_primary_agent sets 'agent' as the primary agent.
             The primary agent is the smartcab that is followed in the environment. """
 
@@ -105,7 +103,7 @@ class Environment(object):
         agent.primary_agent = True
         self.enforce_deadline = enforce_deadline
 
-    def reset(self, testing=True):
+    def reset(self, testing=False):
         """ This function is called at the beginning of a new trial. """
 
         self.done = False
@@ -150,7 +148,7 @@ class Environment(object):
                     'destination': destination,
                     'deadline': deadline
                 }
-            # For dummy agents, make them choose one of the available
+            # For dummy agents, make them choose one of the available 
             # intersections and headings still in 'positions'
             else:
                 intersection = random.choice(positions.keys())
@@ -166,7 +164,7 @@ class Environment(object):
                 if positions[intersection] == list(): # No headings available for intersection
                     del positions[intersection] # Delete the intersection altogether
 
-
+    
             agent.reset(destination=(destination if agent is self.primary_agent else None), testing=testing)
             if agent is self.primary_agent:
                 # Reset metrics for this trial (step data will be set during the step)
@@ -291,7 +289,7 @@ class Environment(object):
         # Scales reward multiplicatively from [0, 1]
         fnc = self.t * 1.0 / (self.t + state['deadline']) if agent.primary_agent else 0.0
         gradient = 10
-
+        
         # No penalty given to an agent that has no enforced deadline
         penalty = 0
 
@@ -305,7 +303,7 @@ class Environment(object):
                 violation = 2 # Major violation
                 if inputs['left'] == 'forward' or inputs['right'] == 'forward': # Cross traffic
                     violation = 4 # Accident
-
+        
         # Agent wants to drive left:
         elif action == 'left':
             if light != 'green': # Running a red light
@@ -365,7 +363,7 @@ class Environment(object):
                 # Did agent get to destination before deadline?
                 if state['deadline'] >= 0:
                     self.trial_data['success'] = 1
-
+                
                 # Stop the trial
                 self.done = True
                 self.success = True
@@ -386,7 +384,7 @@ class Environment(object):
             self.step_data['light'] = light
             self.step_data['action'] = action
             self.step_data['reward'] = reward
-
+            
             self.trial_data['final_deadline'] = state['deadline'] - 1
             self.trial_data['net_reward'] += reward
             self.trial_data['actions'][violation] += 1
@@ -420,7 +418,7 @@ class Agent(object):
         self.color = 'white'
         self.primary_agent = False
 
-    def reset(self, destination=None, testing=True):
+    def reset(self, destination=None, testing=False):
         pass
 
     def update(self):
@@ -430,7 +428,7 @@ class Agent(object):
         return self.state
 
     def get_next_waypoint(self):
-        return self.next_waypoint
+        return self.next_waypoint  
 
 
 class DummyAgent(Agent):
