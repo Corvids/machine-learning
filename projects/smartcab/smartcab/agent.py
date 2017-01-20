@@ -136,9 +136,10 @@ class LearningAgent(Agent):
 
                 # iter thru possible actions for state
                 for action, reward in state_actions.iteritems():
+                    # if action has good Q val, add to best_actions
                     if reward == best_Q_val:
                         best_actions[action] = reward
-
+                # choose from best_actions
                 action = random.choice(best_actions.keys())
             else:
                 # choose random action
@@ -157,7 +158,7 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-        
+
         self.Q[self.state][action] = (1-self.alpha)*self.Q[self.state][action] + self.alpha*(reward)
 
         return
