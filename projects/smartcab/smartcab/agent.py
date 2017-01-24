@@ -44,8 +44,9 @@ class LearningAgent(Agent):
         if testing is True:
             self.epsilon = 0
             self.alpha = 0
-        else :
-            self.epsilon = 1./math.exp(0.025*self.num_trials)
+        else:
+            #self.epsilon -= 0.01 # decay fn for default learning
+            self.epsilon = math.exp(-0.025*self.num_trials)
             self.num_trials += 1
 
         return None
@@ -65,9 +66,7 @@ class LearningAgent(Agent):
         ###########
         # Set 'state' as a tuple of relevant data for the agent
 
-        light = inputs['light']
-        oncoming = inputs['oncoming']
-        left = inputs['left']
+        light, oncoming, left = inputs['light'], inputs['oncoming'], inputs['left']
         state = (waypoint, light, oncoming, left)
 
         return state
@@ -81,9 +80,11 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Calculate the maximum Q-value of all actions for a given state
-
-        maxQ = max(self.Q[self.state], key=(lambda key: self.Q[self.state][key]))
-        return self.Q[self.state][maxQ]
+        maxQ = -999
+        for key,value in self.Q[state].iteritems():
+            if value>maxQ:
+                maxQ = value
+        return maxQ
 
 
     def createQ(self, state):
@@ -99,7 +100,6 @@ class LearningAgent(Agent):
         if self.learning is True:
             if state not in self.Q.keys():
                 self.Q[state] = {'left':0, 'right':0, 'forward':0, None:0}
-
         return
 
 
@@ -196,13 +196,11 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    #agent = env.create_agent(LearningAgent, learning=True)
-    agent = env.create_agent(LearningAgent, learning=True, alpha=0.33)
+    agent = env.create_agent(LearningAgent, learning=True, alpha=0.5)
 
     ##############
     # Follow the driving agent
     # Flags:
-    #   enforce_deadline - set to True to enforce a deadline metric
     env.set_primary_agent(agent, enforce_deadline=True)
 
     ##############
@@ -212,17 +210,14 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    #sim = Simulator(env, update_delay=0.001, log_metrics=True)
-    sim = Simulator(env, update_delay=0.001, log_metrics=True, optimized=True)
-
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True)
 
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
-    #sim.run(n_test=10)
-    sim.run(n_test=100, tolerance=0.01)
+    sim.run(n_test=10, tolerance=0.01)
 
 if __name__ == '__main__':
     run()
