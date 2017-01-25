@@ -45,8 +45,8 @@ class LearningAgent(Agent):
             self.epsilon = 0
             self.alpha = 0
         else:
-            #self.epsilon -= 0.01 # decay fn for default learning
-            self.epsilon = math.exp(-0.025*self.num_trials)
+            #self.epsilon -= 0.05 # decay fn for default learning
+            self.epsilon = math.exp(-0.025*self.num_trials) # improved learning
             self.num_trials += 1
 
         return None
@@ -80,10 +80,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Calculate the maximum Q-value of all actions for a given state
-        maxQ = -999
-        for key,value in self.Q[state].iteritems():
-            if value>maxQ:
-                maxQ = value
+        maxQ = max(self.Q[state].values())
         return maxQ
 
 
@@ -158,8 +155,8 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-
-        self.Q[self.state][action] = (1-self.alpha)*self.Q[self.state][action] + self.alpha*(reward)
+        if self.learning is True:
+            self.Q[self.state][action] = (1-self.alpha)*self.Q[self.state][action] + self.alpha*(reward)
 
         return
 
@@ -196,7 +193,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, alpha=0.5)
+    agent = env.create_agent(LearningAgent, learning=True)
 
     ##############
     # Follow the driving agent
