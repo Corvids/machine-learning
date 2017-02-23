@@ -1,6 +1,7 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Proposal
 Jennifer Joo
+
 February 24th, 2017
 
 ## Proposal
